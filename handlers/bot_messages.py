@@ -14,11 +14,6 @@ from utils.states import ChatStates
 router = Router()
 
 
-@router.message(F.text.lower().in_(["хай", "хелоу", "привет", "q"]))
-async def greetings(message: Message):
-    await message.reply("Привееет!")
-
-
 @router.message(StateFilter(None))
 async def response(message: Message, state: FSMContext, bot: Bot):
     await state.update_data(waiting_for_answer=True)
