@@ -9,10 +9,14 @@ async def admin_menu_buttons():
     admin_menu = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text="Статистика", callback_data="statistics"),
+                InlineKeyboardButton(text="📊 Статистика", callback_data="statistics"),
             ],
             [
-                InlineKeyboardButton(text="Рассылка", callback_data="send_broadcast")
+                InlineKeyboardButton(text="📩 Рассылка", callback_data="send_broadcast"),
+                InlineKeyboardButton(text="📁 Бэкап БД", callback_data="send_database"),
+            ],
+            [
+                InlineKeyboardButton(text="⚙️ Нагрузка на сервер", callback_data="workload"),
             ]],
         row_width=2,
         resize_keyboard=True)

@@ -4,11 +4,14 @@ from aiogram.fsm.context import FSMContext
 from aiogram.utils.text_decorations import html_decoration
 from utils.states import FirstStates, SecondStates
 from utils.unpack_send_state import get_all_data
+from utils.check_workload import get_workload_info
 from menu.admin_menu import send_admin_menu
 from menu.broadcast import send_broadcast, send_message
 from keyboards import reply
 from DB.database import db
 import html
+from datetime import datetime
+from aiogram.types.input_file import FSInputFile
 
 router = Router()
 
@@ -136,3 +139,18 @@ async def view_statistics(callback: CallbackQuery, bot: Bot):
     unique_users_count = users_count
     await bot.send_message(callback.from_user.id, f"<b>ℹ️ Количество пользователей:</b> {unique_users_count}")
     await callback.answer()
+
+
+@router.callback_query(F.data == "workload")
+async def view_workload(callback: CallbackQuery, bot: Bot):
+    info = get_workload_info()
+    await bot.send_message(callback.from_user.id, info)
+    await callback.answer()
+
+
+@router.callback_query(F.data == "send_database")
+async def backup_database(callback: CallbackQuery, bot: Bot):
+    file_path = "data/database.db"
+    file = FSInputFile(file_path)
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    await bot.send_document(callback.from_user.id, file, caption=f'{current_time}')
