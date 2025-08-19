@@ -7,6 +7,7 @@ from handlers import bot_messages, user_commands
 from callbacks import administration
 from config_reader import config
 from DB.database import db
+from middlewares.waiting_for_answer_middleware import WaitingForAnswerMiddleware
 
 
 async def main():
@@ -17,6 +18,8 @@ async def main():
 
     bot = Bot(token=config.bot_token.get_secret_value(), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher()
+
+    dp.message.middleware(WaitingForAnswerMiddleware())
 
     dp.include_routers(
         user_commands.router,

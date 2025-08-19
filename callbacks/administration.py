@@ -119,11 +119,12 @@ async def confirm_send(message: Message, state: FSMContext, bot: Bot):
         text, button, media_type, media = await get_all_data(state)
         await send_broadcast(message.from_user.id, text, button, media_type, media, bot)
         await send_admin_menu(bot, message)
+        await state.clear()
 
     elif choice == 'нет':
         await message.answer("❌ Рассылка отменена.")
-        await state.clear()
         await send_admin_menu(bot, message)
+        await state.clear()
 
     else:
         await message.answer("Пожалуйста, отправьте 'Да' или 'Нет'.")
