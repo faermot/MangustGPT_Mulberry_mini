@@ -14,14 +14,22 @@ class ConversationManager:
         if not any(m["role"] == "system" for m in history):
             history.insert(0, {"role": "system", "content": "You are a helpful assistant."})
 
-        response = self.client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=history,
-            web_search=False
-        )
-        assistant_response = response.choices[0].message.content
-        await self.db.add_message(user_id, "assistant", assistant_response)
-        return assistant_response
+        models = ["gpt-4", "gpt-4o-mini"]
+
+        for model in models:
+            try:
+                response = self.client.chat.completions.create(
+                    model=model,
+                    messages=history,
+                    web_search=False
+                )
+                assistant_response = response.choices[0].message.content
+                await self.db.add_message(user_id, "assistant", assistant_response)
+                return assistant_response
+            except Exception:
+                continue
+
+        return "⚠️ Модель не смогла ответить. Попробуй ещё раз."
 
 
 conversation = ConversationManager()
