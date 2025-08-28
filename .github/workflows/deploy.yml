@@ -28,8 +28,8 @@ jobs:
 
           echo ">>> Обновляю код"
           cd /root/MangustGPT_Mulberry_mini
-          git fetch origin main
-          git reset --hard origin/main
+          git fetch origin master
+          git reset --hard origin/master
 
           echo ">>> Ставлю зависимости"
           /root/MangustGPT_Mulberry_mini/venv/bin/pip install -r requirements.txt
