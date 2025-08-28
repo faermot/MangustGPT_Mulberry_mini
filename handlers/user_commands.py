@@ -40,7 +40,7 @@ async def reference(message: Message, bot: Bot):
     await bot.send_message(
         message.from_user.id,
         "<b>📖 Справка по боту </b>\n"
-        "Версия бота: <i> MangustGPT 2.8 Mulberry Mini [TEST]</i>\n"
+        "Версия бота: <i> MangustGPT 2.8 Mulberry Mini [TEST 1]</i>\n"
         "Генерация таблиц: <i>отсутствует</i>\n"
         "Генерация изображений: <i>отсутствует</i> \n "
         "\n"
