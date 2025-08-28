@@ -18,11 +18,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H your.vps.ip >> ~/.ssh/known_hosts
+          ssh-keyscan -H 176.113.82.90 >> ~/.ssh/known_hosts
 
       - name: Deploy
         run: |
-          ssh -i ~/.ssh/id_ed25519 root@your.vps.ip << 'EOF'
+          ssh -i ~/.ssh/id_ed25519 root@176.113.82.90 << 'EOF'
           set -e
 
           echo ">>> Остановка сервиса"
