@@ -20,20 +20,12 @@ jobs:
 
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no root@176.113.82.90 << 'EOF'
+          ssh root@176.113.82.90 << 'EOF'
           set -e
-          
-          echo ">>> Останавливаю сервис"
           systemctl stop mangustbot || true
-
-          echo ">>> Обновляю код"
           cd /root/MangustGPT_Mulberry_mini
           git fetch origin master
           git reset --hard origin/master
-
-          echo ">>> Ставлю зависимости"
           /root/MangustGPT_Mulberry_mini/venv/bin/pip install -r requirements.txt
-
-          echo ">>> Запускаю сервис"
           systemctl start mangustbot
           EOF
