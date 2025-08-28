@@ -6,6 +6,7 @@ from typing import List
 class Settings(BaseSettings):
     bot_token: SecretStr
     admin_ids: str
+    db_path: str
     model_config: SettingsConfigDict = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8"

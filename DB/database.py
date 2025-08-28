@@ -1,8 +1,9 @@
 import aiosqlite
+from config_reader import config
 
 
 class Database:
-    def __init__(self, path="data/database.db"):
+    def __init__(self, path=config.db_path):
         self.path = path
 
     async def init(self):
