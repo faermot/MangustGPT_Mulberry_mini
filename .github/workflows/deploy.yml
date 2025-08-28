@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Start ssh-agent
+      - name: Setup ssh-agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
@@ -22,22 +22,18 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no root@176.113.82.90 << 'EOF'
           set -e
-
-          echo ">>> Добавляем GitHub в known_hosts"
-          mkdir -p ~/.ssh
-          ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts
-
-          echo ">>> Останавливаем сервис"
+          
+          echo ">>> Останавливаю сервис"
           systemctl stop mangustbot || true
 
-          echo ">>> Обновляем код проекта"
+          echo ">>> Обновляю код"
           cd /root/MangustGPT_Mulberry_mini
           git fetch origin master
           git reset --hard origin/master
 
-          echo ">>> Устанавливаем зависимости"
+          echo ">>> Ставлю зависимости"
           /root/MangustGPT_Mulberry_mini/venv/bin/pip install -r requirements.txt
 
-          echo ">>> Запускаем сервис"
+          echo ">>> Запускаю сервис"
           systemctl start mangustbot
           EOF
