@@ -17,4 +17,4 @@ jobs:
 
       - name: Run command on VPS
         run: |
-          ssh -i ~/.ssh/id_ed25519 root@176.113.82.90p "echo 'Успешное подключение к серверу $(hostname)'"
+          ssh -i ~/.ssh/id_ed25519 root@176.113.82.90 "echo 'Успешное подключение к серверу $(hostname)'"
