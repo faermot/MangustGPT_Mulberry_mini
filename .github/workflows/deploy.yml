@@ -3,7 +3,7 @@ name: Deploy Mangust Bot
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
