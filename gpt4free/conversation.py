@@ -29,7 +29,7 @@ class ConversationManager:
             except Exception:
                 continue
 
-        return "⚠️ Модель не смогла ответить. Попробуй ещё раз."
+        return "⚠️ Модель не смогла ответить. Попробуйте ещё раз."
 
 
 conversation = ConversationManager()
