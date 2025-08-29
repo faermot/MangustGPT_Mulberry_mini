@@ -3,13 +3,14 @@ from aiogram.types import Message
 from aiogram.filters import StateFilter
 from gpt4free.conversation import conversation
 from aiogram.enums.parse_mode import ParseMode
-from utils.markdown_conventer import convert_headings_to_bold
+from utils.markdown_conventer import convert_to_telegram_md_v2
 from utils.states import ClearHistory
 from keyboards import reply
 from DB.database import db
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from utils.states import ChatStates
+from utils.telegram_split import split_message
 
 router = Router()
 
@@ -24,11 +25,18 @@ async def response(message: Message, state: FSMContext, bot: Bot):
         )
         await bot.send_chat_action(message.from_user.id, 'typing')
 
-        text = convert_headings_to_bold(
+        text = convert_to_telegram_md_v2(
             await conversation.get_response(user_id=message.from_user.id, user_message=message.text)
         )
-        await message.reply(text, parse_mode=ParseMode.MARKDOWN)
+
+        if len(text) > 4096:
+            for part in split_message(text):
+                await bot.send_message(message.from_user.id, part, parse_mode=ParseMode.MARKDOWN_V2)
+        else:
+            await message.reply(text, parse_mode=ParseMode.MARKDOWN_V2)
+
         await msg.delete()
+
     finally:
         await state.update_data(waiting_for_answer=False)
         await state.clear()
